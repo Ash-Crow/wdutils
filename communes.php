@@ -84,7 +84,7 @@ if (isset($_REQUEST['area'])) {
 			</tr>
 		</thead>
 		<tbody>
-		<?php foreach ($communesQuery->results as $item) {
+		<?php foreach ($communesQuery->results as $key => $value) {
 			echo '<tr><td><a href="https://www.wikidata.org/wiki/Q'. $key ."\">Q$key</a></td>";
 			echo "<td>", $value, "</td>";
 			echo '</tr>';
