@@ -70,7 +70,7 @@ table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sor
 <?php
 require_once('lib/WDQCleanedResults.php');
 
-if (isset($_REQUEST['region'])) {	
+if (isset($_REQUEST['area'])) {	
 	try {
 			$region=$_REQUEST['region'];
 			$communesQuery = new WDQCleanedResults("tree[$region][150][17,131] and claim[31:484170]","fr");
@@ -98,7 +98,7 @@ if (isset($_REQUEST['region'])) {
 		echo "<p>", $ex->getMessage(), "</p>";
 	}
 }?>
-<h3>Choisissez une région</h3>
+<h3>Choisissez un département</h3>
 <?php
 	try {
 			//$regionsQuery = new WDQCleanedResults("claim[31:36784]","fr");
@@ -109,8 +109,8 @@ if (isset($_REQUEST['region'])) {
 
 <form role="form" method="GET">
 	<div class="form-group">
-		<label for="departement">Département</label>
-		<select id="departement" name="departement">
+		<label for="area">Département</label>
+		<select id="area" name="area">
 		<?php	foreach($areaQuery->results as $key => $value){
 				echo '<option value="'.$key.'">'.$value;'</option>';
 			} ?>
