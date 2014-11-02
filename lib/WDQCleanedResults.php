@@ -57,7 +57,7 @@ class WDQCleanedResults {
 		$labels = $this->getItemsLabels($this->language, $items);
 		foreach ($labels as $label) {
 			$key = $label['id'];
-			$this->results[$key] = $label['label'];
+			$this->results[$key]["L$this->language"] = $label['label'];
 		}
 		
 		asort($this->results);

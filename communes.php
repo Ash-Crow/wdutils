@@ -14,7 +14,7 @@ $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : 'fr';
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Communes françaises | Tool Labs</title>
+	<title>WDUtils | Tool Labs</title>
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
@@ -66,6 +66,7 @@ table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sor
   </div><!-- /.navbar-collapse -->
 </nav>
 <div id="main_content" class="container"><div class="row">
+	<h1>Communes françaises par département</h1>
 <?php
 require_once('lib/WDQCleanedResults.php');
 
@@ -74,6 +75,21 @@ if (isset($_REQUEST['region'])) {
 			$region=$_REQUEST['region'];
 			$communesQuery = new WDQCleanedResults("tree[$region][150][17,131] and claim[31:484170]","fr");
 			$communesQuery->run();
+?>
+	
+	<table class=\"sortable\">
+		<thead>
+			<tr>
+				<th>Item</th><th>Label <?php language ?></th>
+			</tr>
+		</thead>
+		<tbody>
+		<?php foreach ($communesQuery->results as $item) {
+			echo '<tr><td><a href="https://www.wikidata.org/wiki/Q', $item['id'], "\">Q$item[id]</a></td>";
+			echo "<td>", $item["L$language"], "</td>";
+			echo '</tr>';
+		}
+		echo "</tbody></table>"; 
 			
 			echo "<pre>";
 			print_r($communesQuery);
@@ -95,8 +111,8 @@ if (isset($_REQUEST['region'])) {
 	<div class="form-group">
 		<label for="departement">Département</label>
 		<select id="departement" name="departement">
-		<?php	foreach($areaQuery->results as $key => $value){
-				echo '<option value="'.$key.'">'.$value;'</option>';
+		<?php	foreach($areaQuery->results as $item){
+				echo '<option value="'.$item.'">'.$item["L$language"];'</option>';
 			} ?>
 		</select>
 	</div>
