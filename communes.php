@@ -95,14 +95,19 @@ if (isset($_REQUEST['region'])) {
 
 <form role="form" method="GET">
 	<div class="form-group">
-		<select>
+		<label for="region">Région</label>
+		<select id="region" name="region">
 		<?php	foreach($regionsQuery->results as $key => $value){
 				echo '<option value="'.$key.'">'.$value;'</option>';
 			} ?>
 		</select>
 	</div>
 	<div class="form-group">
-		<button type="submit" class="btn btn-default">Submit</button>
+		<label for="language">Without label in the following language</label>
+		<input id="language" name="language" value="fr" size="4" class="form-control" />
+  </div>
+	<div class="form-group">
+		<button type="submit" class="btn btn-default">Valider</button>
 	</div>
 </form>
 			
