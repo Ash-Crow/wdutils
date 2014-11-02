@@ -16,7 +16,7 @@ $language = isset($_REQUEST['language']) ? $_REQUEST['language'] : 'fr';
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Communes françaises | Tool Labs</title>
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="/wikidata-nolabels/js/sorttable.js"></script>
 	<style>
@@ -89,11 +89,16 @@ if (isset($_REQUEST['region'])) {
 			$regionsQuery->run();
 			
 			echo "<pre>";
-			print_r($communesQuery);
+			print_r($regionsQuery);
 			echo "</pre>";
 			
 			echo '<form role="form" method="GET">';
 			echo '<div class="form-group">';
+			echo '<select>';
+			foreach($regionsQuery->results as $key => $value){
+				echo '<option value="'.$key.'">'.$value;'</option>';
+			}
+			echo '</select></div></form>';
 			
 
 	} catch (Exception $ex) {
