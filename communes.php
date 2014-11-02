@@ -91,14 +91,20 @@ if (isset($_REQUEST['region'])) {
 			echo "<pre>";
 			print_r($regionsQuery);
 			echo "</pre>";
-			
-			echo '<form role="form" method="GET">';
-			echo '<div class="form-group">';
-			echo '<select>';
-			foreach($regionsQuery->results as $key => $value){
+?>
+
+<form role="form" method="GET">
+	<div class="form-group">
+		<select>
+		<?php	foreach($regionsQuery->results as $key => $value){
 				echo '<option value="'.$key.'">'.$value;'</option>';
-			}
-			echo '</select></div></form>';
+			} ?>
+		</select>
+	</div>
+	<div class="form-group">
+		<button type="submit" class="btn btn-default">Submit</button>
+	</div>
+</form>
 			
 
 	} catch (Exception $ex) {
