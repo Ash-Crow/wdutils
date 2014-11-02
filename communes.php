@@ -4,6 +4,9 @@
  * Queries wikidata items without label in a specified language.
  * Released under BSD license.
  */
+ 
+$language = isset($_REQUEST['language']) ? $_REQUEST['language'] : 'fr';
+ 
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -54,8 +57,7 @@ table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sor
   <!-- Collect the nav links, forms, and other content for toggling -->
   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav">
-      <li class="active"><a href="/wikidata-nolabels/">Query</a></li>
-      <li><a href="/wikidata-nolabels/help.html">Help</a></li>
+      <li class="active"><a href="/wikidata-nolabels/">Communes</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
         <li class="navbar-logo"><a href="https://tools.wmflabs.org"><img title="Powered by Wikimedia Labs" src="//upload.wikimedia.org/wikipedia/commons/thumb/6/60/Wikimedia_labs_logo.svg/32px-Wikimedia_labs_logo.svg.png" /></a></li>
@@ -65,10 +67,12 @@ table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sor
 </nav>
 <div id="main_content" class="container"><div class="row">
 <?php
-	require_once('lib/WDQCleanedResults.php');
-	
+require_once('lib/WDQCleanedResults.php');
+
+if (isset($_REQUEST['region'])) {	
 	try {
-			$communesQuery = new WDQCleanedResults("claim[31:484170]","fr");
+			$region=$_REQUEST['region'];
+			$communesQuery = new WDQCleanedResults("tree[$region][150][17,131] and claim[31:484170]","fr");
 			$communesQuery->run();
 			
 			echo "<pre>";
@@ -77,5 +81,25 @@ table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sor
 	} catch (Exception $ex) {
 		echo "<p>", $ex->getMessage(), "</p>";
 	}
+}?>
+<h3>Choisissez une région</h3>
+<?php
+	try {
+			$regionsQuery = new WDQCleanedResults("claim[31:36784]","fr");
+			$regionsQuery->run();
+			
+			echo "<pre>";
+			print_r($communesQuery);
+			echo "</pre>";
+			
+			echo '<form role="form" method="GET">';
+			echo '<div class="form-group">';
+			
+
+	} catch (Exception $ex) {
+		echo "<p>", $ex->getMessage(), "</p>";
+	}
+
+
 ?>
 
