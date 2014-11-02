@@ -85,8 +85,8 @@ if (isset($_REQUEST['area'])) {
 		</thead>
 		<tbody>
 		<?php foreach ($communesQuery->results as $item) {
-			echo '<tr><td><a href="https://www.wikidata.org/wiki/Q', $item['id'], "\">Q$item[id]</a></td>";
-			echo "<td>", $item["L$language"], "</td>";
+			echo '<tr><td><a href="https://www.wikidata.org/wiki/Q'. $key ."\">Q$key</a></td>";
+			echo "<td>", $value, "</td>";
 			echo '</tr>';
 		}
 		echo "</tbody></table>"; 
