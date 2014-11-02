@@ -106,7 +106,7 @@ if (isset($_REQUEST['region'])) {
 	</div>
 </form>
 			
-
+<?php
 	} catch (Exception $ex) {
 		echo "<p>", $ex->getMessage(), "</p>";
 	}
