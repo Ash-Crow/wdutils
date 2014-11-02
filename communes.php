@@ -82,10 +82,10 @@ if (isset($_REQUEST['region'])) {
 		echo "<p>", $ex->getMessage(), "</p>";
 	}
 }?>
-<h3>Choisissez une région</h3>
+<h3>Choisissez un département</h3>
 <?php
 	try {
-			$regionsQuery = new WDQCleanedResults("claim[31:36784]","fr");
+			$regionsQuery = new WDQCleanedResults("claim[31:6465]","fr");
 			$regionsQuery->run();
 			
 			echo "<pre>";
@@ -95,15 +95,15 @@ if (isset($_REQUEST['region'])) {
 
 <form role="form" method="GET">
 	<div class="form-group">
-		<label for="region">Région</label>
-		<select id="region" name="region">
+		<label for="departement">Département</label>
+		<select id="departement" name="departement">
 		<?php	foreach($regionsQuery->results as $key => $value){
 				echo '<option value="'.$key.'">'.$value;'</option>';
 			} ?>
 		</select>
 	</div>
 	<div class="form-group">
-		<label for="language">Without label in the following language</label>
+		<label for="language">Langue</label>
 		<input id="language" name="language" value="fr" size="4" class="form-control" />
   </div>
 	<div class="form-group">
