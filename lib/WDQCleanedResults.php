@@ -58,7 +58,9 @@ class WDQCleanedResults {
 		foreach ($labels as $label) {
 			$key = $label['id'];
 			$this->results[$key] = $label['label'];
-		}		
+		}
+		
+		asort($this->results);
 	}
 	
 	///
