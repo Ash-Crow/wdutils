@@ -82,22 +82,20 @@ if (isset($_REQUEST['region'])) {
 		echo "<p>", $ex->getMessage(), "</p>";
 	}
 }?>
-<h3>Choisissez un département</h3>
+<h3>Choisissez une région</h3>
 <?php
 	try {
-			$regionsQuery = new WDQCleanedResults("claim[31:6465]","fr");
-			$regionsQuery->run();
+			//$regionsQuery = new WDQCleanedResults("claim[31:36784]","fr");
+			$areaQuery = new WDQCleanedResults("claim[31:6465] and noclaim[576]","fr");
+			$areaQuery->run();
 			
-			echo "<pre>";
-			print_r($regionsQuery);
-			echo "</pre>";
 ?>
 
 <form role="form" method="GET">
 	<div class="form-group">
 		<label for="departement">Département</label>
 		<select id="departement" name="departement">
-		<?php	foreach($regionsQuery->results as $key => $value){
+		<?php	foreach($areaQuery->results as $key => $value){
 				echo '<option value="'.$key.'">'.$value;'</option>';
 			} ?>
 		</select>
