@@ -72,8 +72,8 @@ require_once('lib/WDQCleanedResults.php');
 
 if (isset($_REQUEST['area'])) {	
 	try {
-			$region=$_REQUEST['region'];
-			$communesQuery = new WDQCleanedResults("tree[$region][150][17,131] and claim[31:484170]","fr");
+			$area=$_REQUEST['area'];
+			$communesQuery = new WDQCleanedResults("tree[$area][150][17,131] and claim[31:484170]","fr");
 			$communesQuery->run();
 ?>
 	
