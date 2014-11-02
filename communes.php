@@ -111,8 +111,8 @@ if (isset($_REQUEST['region'])) {
 	<div class="form-group">
 		<label for="departement">Département</label>
 		<select id="departement" name="departement">
-		<?php	foreach($areaQuery->results as $item){
-				echo '<option value="'.$item.'">'.$item["L$language"];'</option>';
+		<?php	foreach($areaQuery->results as $key => $value){
+				echo '<option value="'.$key.'">'.$value;'</option>';
 			} ?>
 		</select>
 	</div>
