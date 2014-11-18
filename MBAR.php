@@ -22,15 +22,25 @@ function queryCommonsAPI($query) {
 		//*/
         }
 
-$queryResult=queryCommonsAPI("action=query&list=embeddedin&eititle=Template:MBA_Rennes&einamespace=6&eilimit=50&format=json"); 
+//$queryResult=queryCommonsAPI("action=query&list=embeddedin&eititle=Template:MBA_Rennes&einamespace=6&eilimit=50&format=json"); 
+
+$template="MBA_Rennes";
+$queryResult="action=query&prop=imageinfo&format=json&iiprop=comment%7Cparsedcomment%7Ccanonicaltitle%7Curl%7Cdimensions%7Cmime%7Cthumbmime%7Cmediatype%7Cmetadata%7Ccommonmetadata%7Cextmetadata%7Carchivename&generator=embeddedin&geititle=Template%3A".$template."&geinamespace=6&geilimit=100";
 
 if (isset($queryResult->query)) {
-	$queryEmbed=$queryResult->query->embeddedin;
+	$queryPages=$queryResult->query->pages;
 
-	$itemIds = "";
 
-	foreach ($queryEmbed as $result){
-		$itemId = $result->pageid;
+	foreach ($queryPages as $key => $value){
+		$itemInfo=$value->imageinfo;
+
+		$itemId = $key;
+		$item=array();
+		$item["title"]=$value->title;
+		$item["width"]=$itemInfo->width;
+		$item["height"]=$itemInfo->height;
+		$item["fileUrl"]=$itemInfo->url;
+		$item["descriptionUrl"]=$itemInfo->url;
 		echo $itemId."<br />";
 
 		$itemIds.=$itemId."|";
