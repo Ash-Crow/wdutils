@@ -6,21 +6,20 @@ ini_set('display_startup_errors', TRUE);
 $timeStart=microtime(true);
 
 function queryCommonsAPI($query) {
-                $url = 'https://commons.wikimedia.org/w/api.php?'. $query;
+    $url = 'https://commons.wikimedia.org/w/api.php?'. $query;
 
-                $data = json_decode(file_get_contents($url));
+    $data = json_decode(file_get_contents($url));
 
-		// Error checking
-                if (isset($data->warning->main)) {
-                        throw new Exception($data->warning->main);
-                }
-                return $data;
+	// Error checking
+	if (isset($data->warning->main)) {
+		throw new Exception($data->warning->main);
+	}
+	if (isset($data->error)) {
+		throw new Exception($data->error);
+	}
 
-		if (isset($data->error)) {
-			throw new Exception($data->error);
-		}
-		//*/
-        }
+	return $data;
+}
 
 //$queryResult=queryCommonsAPI("action=query&list=embeddedin&eititle=Template:MBA_Rennes&einamespace=6&eilimit=50&format=json"); 
 
