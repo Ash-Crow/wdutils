@@ -21,11 +21,13 @@ include_once("lib/parsecsv.lib.php");
 	<ul>
 		<li>qid</li>
 		<li>Sources, prefixed with "S" instead of "P" (for example, the label of the column for "P143 (imported from)" must start with "S143")</li>
-		<li>Labels, descriptions, aliases</li>
+		<li>Labels, descriptions, aliases, prefixed with "L(lang), d(lang), A(lang)... You can put several aliases for one language, separated by "|".</li>
 		<li>Properties</li>
-		<li>Qualifiers</li>
-		<li>Site links</li>
+		<li>Qualifiers, prefixed with "qal" instead of "P".</li>
+		<li>Site links, prefixed with "S(lang)"</li>
 	</ul>
+
+	<p>For most columns titles and values, you can add human-readable comments after a "|", if it helps (see the sample file.)</p>
 </div>
 
 <!-- The import form -->
