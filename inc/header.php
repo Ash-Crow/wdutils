@@ -31,14 +31,14 @@ $thisPage = basename($_SERVER['PHP_SELF']);
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="/wikidata-nolabels/">WDUtils | Tool Labs</a>
+			<a class="navbar-brand" href="/ash-dev/">WDUtils | Tool Labs</a>
 		</div>
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li <?php if ($thisPage == "communes.php") { echo 'class="active"';} ?> ><a href="/wdutils/communes.php">Communes</a></li>
-				<?php /* <li <?php if ($thisPage == "artworks.php") { echo 'class="active"';} ?> ><a href="/wdutils/artworks.php">Artworks</a></li> //*/ ?>
-				<li <?php if ($thisPage == "csv2quickstatements.php") { echo 'class="active"';} ?> ><a href="/wdutils/csv2quickstatements.php">CSV to Quick Statements</a></li>
+				<li <?php if ($thisPage == "communes.php") { echo 'class="active"';} ?> ><a href="/ash-dev/wdutils/communes.php">Communes</a></li>
+				<?php /* <li <?php if ($thisPage == "artworks.php") { echo 'class="active"';} ?> ><a href="/ash-dev/wdutils/artworks.php">Artworks</a></li> //*/ ?>
+				<li <?php if ($thisPage == "csv2quickstatements.php") { echo 'class="active"';} ?> ><a href="/ash-dev/wdutils/csv2quickstatements.php">CSV to Quick Statements</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="navbar-logo"><a href="https://tools.wmflabs.org"><img title="Powered by Wikimedia Labs" src="//upload.wikimedia.org/wikipedia/commons/thumb/6/60/Wikimedia_labs_logo.svg/32px-Wikimedia_labs_logo.svg.png" /></a></li>
