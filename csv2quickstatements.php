@@ -9,16 +9,24 @@ include_once("lib/parsecsv.lib.php");
 	<p>This tool converts a properly formated CSV file into a series of commands you can pass to
 	 Magnus' <a href="http://tools.wmflabs.org/wikidata-todo/quick_statements.php">Quick Statements</a> tool for Wikidata.
 	</p>
+
+	<div id="helpToggle" style="float: right;">[Click to show/hide HOWTO]</div>
 </div>
 
-<h3><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Help</h3>
-<p>
-TODO: Here be explanations on the expected syntax.
-
-* First column must be labeled "qid"
-* If there are sources, they must be located in the columns right after the qid, prefixed with "S" instead of "P" (for example, the label of the column for "P143 (imported from)" must start with "S143")
-
-</p>
+<div id="helpSection" <?php if ( isset($_FILES["csv"])) { echo 'style="display: none;"';}?> >
+	<h3><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> HOWTO</h3>
+	<!-- TODO : complete documentation -->
+	<p>You can find a sample CSV file <a href="samples/csv_sample.csv">here</a>.</p>
+	<p>The order of the columns must be as follow: </p>
+	<ul>
+		<li>qid</li>
+		<li>Sources, prefixed with "S" instead of "P" (for example, the label of the column for "P143 (imported from)" must start with "S143")</li>
+		<li>Labels, descriptions, aliases</li>
+		<li>Properties</li>
+		<li>Qualifiers</li>
+		<li>Site links</li>
+	</ul>
+</div>
 
 <!-- The import form -->
 <h3><span class="glyphicon glyphicon-import" aria-hidden="true"></span> Upload CSV file</h3>
@@ -57,15 +65,9 @@ if ( isset($_FILES["csv"])) {
 		}
 
 		foreach ($csv->data as $entry) {
-			$commands_list= array();
+			$commands_array= array();
 			$source="";
 			$qid="";
-
-			//TEST remove this once fixed.
-			echo "<pre>";
-			print_r("Entry:");
-			print_r($entry);
-			echo "</pre>";
 
 			foreach ($entry as $key => $value) {
 				$key=stripComments($key);
@@ -76,11 +78,10 @@ if ( isset($_FILES["csv"])) {
 						break;
 					case 'qid': // Let's check the QID first
 						if (empty($value)){
-							$commands_list[] = "CREATE";
+							$commands_array[] = "CREATE";
 							$qid = "LAST";
 						} else {
 							$qid = stripComments($value);
-							echo "toto";
 						}
 						break;
 					case preg_match('/^(s|S)\d+$/', $key)? true : false: // Source
@@ -88,34 +89,60 @@ if ( isset($_FILES["csv"])) {
 
 						break;
 					case preg_match('/^(p|P)\d+$/', $key)? true : false: // Property
-						echo "source:".$source;
-						$commands_list[]= $qid ."	" . strtoupper($key) . "	" . stripComments($value) . $source;
+						if (!empty($value)){ $commands_array[]= $qid ."	" . strtoupper($key) . "	" . stripComments($value) . $source; }
 						break;
 					case preg_match('/^(qal|QAL)(?P<number>\d+)$/', $key, $matches)? true : false: // Qualifier will be added to the last property.
-						$last_prop = array_pop($commands_list);
-						$commands_list[] = $last_prop . "	P" . $matches["number"] . "	" . stripComments($value);
+						if (!empty($value)){
+							$last_prop = array_pop($commands_array);
+							$commands_array[] = $last_prop . "	P" . $matches["number"] . "	" . stripComments($value);
+							break;
+						}
+					case preg_match('/^(l|L|d|D)(?P<lang>[a-z]+)$/', $key, $matches)? true : false: // Labels and descriptions
+						// TODO : check if language code is valid
+						if (!empty($value)){ $commands_array[]= $qid ."	" . $key . '	"' . $value. '"' ; }
+						break;
+					case preg_match('/^(a|A)(?P<lang>[a-z]+)$/', $key, $matches)? true : false: // Aliases
+						// TODO : check if language code is valid
+						if (!empty($value)){
+							$aliases=explode("|", $value);
+							foreach ($aliases as $alias) {
+								$commands_array[]= $qid ."	" . $key . '	"' . $alias. '"' ;
+							}
+						}
+						break;
+						// TODO : check if language code is valid
+					case preg_match('/^(s|S)(?P<lang>[a-z]+)$/', $key, $matches)? true : false: // Sitelinks
+						// TODO : check if site code is valid
+						if (!empty($value)){ $commands_array[]= $qid ."	" . $key . '	"' . $value. '"' ; }
+						break;
 					default:
 						echo '<div class="alert alert-warning" role="alert"><strong>Warning</strong>: Unknown property '.$key.'</div>';
 						break;
 				}
 			}
 
-			//TEST remove this once fixed.
-			echo "<pre>";
-			print_r("Values:");
-			print_r($commands_list);
-			echo "</pre>";
+			if (!empty($commands_array)) {
+				$commands_list = implode("\n", $commands_array);
+				$full_commands_list .= $commands_list ."\n\n";
+			}
+
 		}
 
 		echo '<h3><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Result</h3>';
 
-		//TEST remove this once fixed.
-		echo "<pre>";
-		print_r($_FILES["csv"]);
-		print_r($csv->data);
-		echo "</pre>";
-		
-		echo '<div class="alert alert-success" role="alert">Just copy the lines above and paste them into <a href="http://tools.wmflabs.org/wikidata-todo/quick_statements.php">Quick Statements</a> !</div>';
+
+		if (!empty($full_commands_list)) {
+			echo "<pre>";
+			print_r($full_commands_list);
+	/*		print_r($_FILES["csv"]); // Just in case I need to check the full csv
+			print_r($csv->data); //*/
+			echo "</pre>";
+			
+			echo '<div class="alert alert-success" role="alert">Just copy the lines above and paste them into 
+			<a href="http://tools.wmflabs.org/wikidata-todo/quick_statements.php">Quick Statements</a> !</div>';
+		} else {
+			echo '<div class="alert alert-danger" role="alert"><strong>Error</strong>: The CSV file seems to contain no data.</div>';
+		}
 	}
 } else {
 	//No file has been imported yet.
@@ -123,4 +150,13 @@ if ( isset($_FILES["csv"])) {
 ?>
 			
 </div> <!-- End of container div -->
+
+<!-- Specific Javascript for this page -->
+<script>
+$(document).ready(function(){
+	$("#helpToggle").click(function(){
+		$("#helpSection").toggle("slow");
+	});
+});
+</script>
 <?php include_once("inc/footer.php"); ?>

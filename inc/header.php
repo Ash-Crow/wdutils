@@ -19,6 +19,7 @@ $thisPage = basename($_SERVER['PHP_SELF']);
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="css/style.css">
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
 	<nav class="navbar navbar-default" role="navigation">
@@ -36,8 +37,8 @@ $thisPage = basename($_SERVER['PHP_SELF']);
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
 				<li <?php if ($thisPage == "communes.php") { echo 'class="active"';} ?> ><a href="/wdutils/communes.php">Communes</a></li>
-				<li <?php if ($thisPage == "artworks.php") { echo 'class="active"';} ?> ><a href="/wdutils/artworks.php">Artworks</a></li>
-				<li <?php if ($thisPage == "csv2quickstatements.php") { echo 'class="active"';} ?> ><a href="/wdutils/csv2quickstatements.php">CSV to Quickstatements</a></li>
+				<?php /* <li <?php if ($thisPage == "artworks.php") { echo 'class="active"';} ?> ><a href="/wdutils/artworks.php">Artworks</a></li> //*/ ?>
+				<li <?php if ($thisPage == "csv2quickstatements.php") { echo 'class="active"';} ?> ><a href="/wdutils/csv2quickstatements.php">CSV to Quick Statements</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li class="navbar-logo"><a href="https://tools.wmflabs.org"><img title="Powered by Wikimedia Labs" src="//upload.wikimedia.org/wikipedia/commons/thumb/6/60/Wikimedia_labs_logo.svg/32px-Wikimedia_labs_logo.svg.png" /></a></li>
