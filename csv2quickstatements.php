@@ -1,4 +1,6 @@
 <?php
+include_once("lib/pageInterface.lib.php");
+$page= new pageInterface("CSV to QuickStatements converter");
 include_once("inc/header.php");
 include_once("lib/parsecsv.lib.php");
 include_once("lib/csv2QuickStatements.lib.php");
@@ -51,10 +53,9 @@ if ( isset($_FILES["csv"])) {
 
 		//if there was an error uploading the file
 	if ($_FILES["csv"]["error"] > 0) {
-		echo '<div class="alert alert-danger" role="alert"><strong>Error</strong>: Return Code " . $_FILES["file"]["error"] . "</div>';
-
+		$page->alert("Return Code " . $_FILES["file"]["error"],"danger");
 	} else if (!in_array($_FILES["csv"]["type"],$csv_mimetypes)) {
-		echo '<div class="alert alert-danger" role="alert"><strong>File type error</strong>: The file doesn’t seems to be a CSV.</div>';
+		$page->alert("File type error — the file doesn’t seems to be a CSV.","danger");
 	} else {
 		$csv = new parseCSV($_FILES["csv"]["tmp_name"]);
 
@@ -66,7 +67,7 @@ if ( isset($_FILES["csv"])) {
 
 		if(!empty($csv2QS->warnings)) {
 			foreach ($csv2QS->warnings as $warning) {
-				echo '<div class="alert alert-warning" role="alert"><strong>Warning</strong>: '.$warning.'</div>';
+				$page->alert($warning,"warning");
 			}
 		}
 
@@ -77,10 +78,10 @@ if ( isset($_FILES["csv"])) {
 			print_r($csv->data); //*/
 			echo "</pre>";
 			
-			echo '<div class="alert alert-success" role="alert">Just copy the lines above and paste them into 
-			<a href="http://tools.wmflabs.org/wikidata-todo/quick_statements.php">Quick Statements</a> !</div>';
+			$page->alert('Just copy the lines above and paste them into 
+			<a href="http://tools.wmflabs.org/wikidata-todo/quick_statements.php">Quick Statements</a> !',"success");
 		} else {
-			echo '<div class="alert alert-danger" role="alert"><strong>Error</strong>: The CSV file seems to contain no data.</div>';
+			$page->alert('The CSV file seems to contain no data.','danger');
 		}
 	}
 } else {

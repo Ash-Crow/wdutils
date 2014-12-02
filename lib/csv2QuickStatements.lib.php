@@ -1,5 +1,4 @@
 <?php
-
 class csv2QuickStatements {
 	///
 	/// Properties
@@ -22,6 +21,10 @@ class csv2QuickStatements {
 	 * @var array
 	 */
 	private $csv_data;
+
+	///
+	/// Functions
+	///
 
 	/**
 	 * Initializes a new instance of the csv2QuickStatements class
