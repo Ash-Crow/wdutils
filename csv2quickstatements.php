@@ -1,6 +1,7 @@
 <?php
 include_once("inc/header.php");
 include_once("lib/parsecsv.lib.php");
+include_once("lib/csv2QuickStatements.lib.php");
 ?>
 
 <div class="container theme-showcase" role="main">
@@ -57,81 +58,17 @@ if ( isset($_FILES["csv"])) {
 	} else {
 		$csv = new parseCSV($_FILES["csv"]["tmp_name"]);
 
-		// TODO make a proper class for this.
-
-		$full_commands_list= "";
-
-		function stripComments($property) {
-			$explode = explode("|", $property); // First, remove any human-friendly comment.
-			return $explode[0];
-		}
-
-		foreach ($csv->data as $entry) {
-			$commands_array= array();
-			$source="";
-			$qid="";
-
-			foreach ($entry as $key => $value) {
-				$key=stripComments($key);
-				
-				switch ($key) {
-					case '':
-						echo '<div class="alert alert-warning" role="alert"><strong>Warning</strong>: Unidentified property for value '.$value.'</div>';
-						break;
-					case 'qid': // Let's check the QID first
-						if (empty($value)){
-							$commands_array[] = "CREATE";
-							$qid = "LAST";
-						} else {
-							$qid = stripComments($value);
-						}
-						break;
-					case preg_match('/^(s|S)\d+$/', $key)? true : false: // Source
-						if (!empty($value)){ $source .= "	" . strtoupper($key) . "	" . stripComments($value); }
-
-						break;
-					case preg_match('/^(p|P)\d+$/', $key)? true : false: // Property
-						if (!empty($value)){ $commands_array[]= $qid ."	" . strtoupper($key) . "	" . stripComments($value) . $source; }
-						break;
-					case preg_match('/^(qal|QAL)(?P<number>\d+)$/', $key, $matches)? true : false: // Qualifier will be added to the last property.
-						if (!empty($value)){
-							$last_prop = array_pop($commands_array);
-							$commands_array[] = $last_prop . "	P" . $matches["number"] . "	" . stripComments($value);
-							break;
-						}
-					case preg_match('/^(l|L|d|D)(?P<lang>[a-z]+)$/', $key, $matches)? true : false: // Labels and descriptions
-						// TODO : check if language code is valid
-						if (!empty($value)){ $commands_array[]= $qid ."	" . $key . '	"' . $value. '"' ; }
-						break;
-					case preg_match('/^(a|A)(?P<lang>[a-z]+)$/', $key, $matches)? true : false: // Aliases
-						// TODO : check if language code is valid
-						if (!empty($value)){
-							$aliases=explode("|", $value);
-							foreach ($aliases as $alias) {
-								$commands_array[]= $qid ."	" . $key . '	"' . $alias. '"' ;
-							}
-						}
-						break;
-						// TODO : check if language code is valid
-					case preg_match('/^(s|S)(?P<lang>[a-z]+)$/', $key, $matches)? true : false: // Sitelinks
-						// TODO : check if site code is valid
-						if (!empty($value)){ $commands_array[]= $qid ."	" . $key . '	"' . $value. '"' ; }
-						break;
-					default:
-						echo '<div class="alert alert-warning" role="alert"><strong>Warning</strong>: Unknown property '.$key.'</div>';
-						break;
-				}
-			}
-
-			if (!empty($commands_array)) {
-				$commands_list = implode("\n", $commands_array);
-				$full_commands_list .= $commands_list ."\n\n";
-			}
-
-		}
+		$csv2QS = new csv2QuickStatements($csv->data);
+		$full_commands_list = $csv2QS->run();
 
 		echo '<h3><span class="glyphicon glyphicon-list" aria-hidden="true"></span> Result</h3>';
+		#check for warnings
 
+		if(!empty($csv2QS->warnings)) {
+			foreach ($csv2QS->warnings as $warning) {
+				echo '<div class="alert alert-warning" role="alert"><strong>Warning</strong>: '.$warning.'</div>';
+			}
+		}
 
 		if (!empty($full_commands_list)) {
 			echo "<pre>";
