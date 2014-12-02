@@ -1,10 +1,16 @@
 <?php
-
+include_once("lib/pageInterface.lib.php");
+$page= new pageInterface("Communes françaises");
 include_once("inc/header.php");
-?>
-	<h1>Communes françaises par département</h1>
-<?php
+
 require_once('lib/WDQCleanedResults.php');
+?>
+<div class="container theme-showcase" role="main">
+<div class="jumbotron">
+	<h1>Communes françaises par département</h1>
+</div>
+<?php
+
 
 if (isset($_REQUEST['area'])) {	
 	try {
@@ -65,6 +71,8 @@ if (isset($_REQUEST['area'])) {
 
 
 ?>
+
+</div> <!-- End of container div -->
 <?php
 include_once("inc/footer.php");
 ?>
