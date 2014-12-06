@@ -36,8 +36,8 @@ $thisPage = basename($_SERVER['PHP_SELF']);
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li> Listes
-					<ul>
+				<li class="dropdown"> Listes
+					<ul class="dropdown-menu" role="menu">
 						<li <?php if ($thisPage == "communes.php") { echo 'class="active"';} ?> ><a href="/ash-dev/wdutils/communes.php">Communes</a></li>
 						<li <?php if ($thisPage == "eglises.php") { echo 'class="active"';} ?> ><a href="/ash-dev/wdutils/eglises.php">Églises</a></li>
 					</ul>
