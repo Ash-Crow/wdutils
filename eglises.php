@@ -1,4 +1,7 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 include_once("lib/pageInterface.lib.php");
 $page= new pageInterface("Églises par département français");
 include_once("inc/header.php");
