@@ -117,7 +117,7 @@ class WDQCleanedResults {
 				$latitude = $longitude = "";
 			}
 
-			$return = array($latitude,$longitude);
+			$return = array('latitude' => $latitude,'longitude' => $longitude);
 		} else {
 			throw new Exception('Incorrect item');
 		}
