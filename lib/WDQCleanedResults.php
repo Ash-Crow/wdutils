@@ -105,7 +105,7 @@ class WDQCleanedResults {
 		if (is_numeric($item)) {
 			$url = 'https://www.wikidata.org/w/api.php?action=wbgetclaims&entity=Q'.$item.'&property=P625&format=json';
 
-			$data = json_decode(file_get_contents($url));
+			$data = json_decode(file_get_contents($url), true);
 
 			echo "<pre>";
 			print_r($data);
