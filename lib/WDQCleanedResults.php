@@ -95,6 +95,10 @@ class WDQCleanedResults {
 		return $items;
 	}
 
+	function getItemLocation ($itemsHaystack) {
+		//
+	}
+
 	///
 	/// WDQ helper methods
 	///
