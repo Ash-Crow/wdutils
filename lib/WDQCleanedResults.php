@@ -95,8 +95,25 @@ class WDQCleanedResults {
 		return $items;
 	}
 
-	function getItemLocation ($itemsHaystack) {
-		//
+	/**
+	 * Queries the Wikidata API
+	 *
+	 * @param string $item the Item number
+	 * @return array the geolocation
+	 */
+	function getItemLocation ($item) {
+		if is_numeric($item) {
+			$url = 'https://www.wikidata.org/w/api.php?action=wbgetclaims&entity='.$item'&property=P625&format=json';
+
+			$data = json_decode(file_get_contents($url));
+			$latitude = $data['claims']['P625']['mainsnak']['datavalue']['value']['latitude'];
+			$longitude = $data['claims']['P625']['mainsnak']['datavalue']['value']['longitude'];
+
+			$return = array($latitude,$longitude);
+		} else {
+			throw new Exception('Incorrect item');
+		}
+		return $return;
 	}
 
 	///
