@@ -36,7 +36,11 @@ $thisPage = basename($_SERVER['PHP_SELF']);
 		<!-- Collect the nav links, forms, and other content for toggling -->
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li <?php if ($thisPage == "communes.php") { echo 'class="active"';} ?> ><a href="/ash-dev/wdutils/communes.php">Communes</a></li>
+				<li> Listes </li>
+					<ul>
+						<li <?php if ($thisPage == "communes.php") { echo 'class="active"';} ?> ><a href="/ash-dev/wdutils/communes.php">Communes</a></li>
+						<li <?php if ($thisPage == "eglises.php") { echo 'class="active"';} ?> ><a href="/ash-dev/wdutils/eglises.php">Églises</a></li>
+					</ul>
 				<?php /* <li <?php if ($thisPage == "artworks.php") { echo 'class="active"';} ?> ><a href="/ash-dev/wdutils/artworks.php">Artworks</a></li> //*/ ?>
 				<li <?php if ($thisPage == "csv2quickstatements.php") { echo 'class="active"';} ?> ><a href="/ash-dev/wdutils/csv2quickstatements.php">CSV to Quick Statements</a></li>
 			</ul>
