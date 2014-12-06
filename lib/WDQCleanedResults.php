@@ -107,11 +107,15 @@ class WDQCleanedResults {
 
 			$data = json_decode(file_get_contents($url), true);
 
-			echo "<pre>";
+			/*echo "<pre>";
 			print_r($data);
-			echo "</pre>";
-			$latitude = $data['claims']['P625']['0']['mainsnak']['datavalue']['value']['latitude'];
-			$longitude = $data['claims']['P625']['0']['mainsnak']['datavalue']['value']['longitude'];
+			echo "</pre>";//*/
+			if (!empty($data['claims']['P625'])) {
+				$latitude = $data['claims']['P625']['0']['mainsnak']['datavalue']['value']['latitude'];
+				$longitude = $data['claims']['P625']['0']['mainsnak']['datavalue']['value']['longitude'];
+			} else {
+				$latitude = $longitude = "";
+			}
 
 			$return = array($latitude,$longitude);
 		} else {
