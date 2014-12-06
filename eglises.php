@@ -25,7 +25,7 @@ if (isset($_REQUEST['area'])) {
 	<table class=\"sortable\">
 		<thead>
 			<tr>
-				<th>Item</th><th>Label <?php language ?></th><th>Latitude</th><th>Longitude</th>
+				<th>Item</th><th>Label <?php $language ?></th><th>Latitude</th><th>Longitude</th>
 			</tr>
 		</thead>
 		<tbody>
