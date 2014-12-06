@@ -22,13 +22,16 @@ if (isset($_REQUEST['area'])) {
 	<table class=\"sortable\">
 		<thead>
 			<tr>
-				<th>Item</th><th>Label <?php language ?></th>
+				<th>Item</th><th>Label <?php language ?></th><th>Latitude</th><th>Longitude</th>
 			</tr>
 		</thead>
 		<tbody>
 		<?php foreach ($communesQuery->results as $key => $value) {
+			$coords=$communesQuery->getItemLocation($key);
 			echo '<tr><td><a href="https://www.wikidata.org/wiki/Q'. $key ."\">Q$key</a></td>";
 			echo "<td>", $value, "</td>";
+			echo "<td>", $coords["latitude"], "</td>";
+			echo "<td>", $coords["longitude"], "</td>";
 			echo '</tr>';
 		}
 		echo "</tbody></table>"; 
