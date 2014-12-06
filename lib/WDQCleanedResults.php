@@ -106,6 +106,10 @@ class WDQCleanedResults {
 			$url = 'https://www.wikidata.org/w/api.php?action=wbgetclaims&entity='.$item.'&property=P625&format=json';
 
 			$data = json_decode(file_get_contents($url));
+
+			echo "<pre>";
+			print_r($data);
+			echo "</pre>";
 			$latitude = $data->claims->P625->mainsnak->datavalue->value->latitude;
 			$longitude = $data->claims->P625->mainsnak->datavalue->value->longitude;
 
