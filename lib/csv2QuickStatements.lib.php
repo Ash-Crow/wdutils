@@ -42,11 +42,17 @@ class csv2QuickStatements {
 	 *
 	 * @param string $string the data from the CSV
 	 */
-	protected function stripComments($string) {
+	protected function stripComments($string, $addCommas=0) {
 		$explode = explode("|", $string); // First, remove any human-friendly comment.
+		$string_part = $explode[0];
 
-		if (preg_match('/^(s|p|q)\d+$/', $explode[0])) { $explode[0] = strtoupper($explode[0]); }
-		return $explode[0];
+		$time_pattern = "/^\+\d{11}-\d{2}-\d{2}/";
+
+		if (preg_match('/^(s|p|q)\d+$/', strtolower($string_part))) { $string_part = strtoupper($string_part); }
+		elseif (($addCommas) && (!preg_match($time_pattern, $string_part))) {
+			$string_part = '"'. $string_part .'"';
+		}
+		return $string_part;
 	}
 
 	public function run() {
@@ -71,16 +77,16 @@ class csv2QuickStatements {
 						}
 						break;
 					case preg_match('/^(s|S)\d+$/', $key)? true : false: // Source
-						if (!empty($value)){ $source .= "	" . $key . "	" . $this->stripComments($value); }
+						if (!empty($value)){ $source .= "	" . $key . "	" . $this->stripComments($value,1); }
 
 						break;
 					case preg_match('/^(p|P)\d+$/', $key)? true : false: // Property
-						if (!empty($value)){ $commands_array[]= $qid ."	" . $key . "	" . $this->stripComments($value) . $source; }
+						if (!empty($value)){ $commands_array[]= $qid ."	" . $key . "	" . $this->stripComments($value,1) . $source; }
 						break;
 					case preg_match('/^(qal|QAL)(?P<number>\d+)$/', $key, $matches)? true : false: // Qualifier will be added to the last property.
 						if (!empty($value)){
 							$last_prop = array_pop($commands_array);
-							$commands_array[] = $last_prop . "	P" . $matches["number"] . "	" . $this->stripComments($value);
+							$commands_array[] = $last_prop . "	P" . $matches["number"] . "	" . $this->stripComments($value,1);
 							break;
 						}
 					case preg_match('/^(l|L|d|D)(?P<lang>[a-z]+)$/', $key, $matches)? true : false: // Labels and descriptions
