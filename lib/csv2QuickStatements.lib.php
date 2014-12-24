@@ -68,7 +68,7 @@ class csv2QuickStatements {
 					case '':
 						$this->warnings[] = 'Unidentified property for value '.$value.'.';
 						break;
-					case 'qid': // Let's check the QID first
+					case (strtolower($key) == 'qid') : // Let's check the QID first
 						if (empty($value)){
 							$commands_array[] = "CREATE";
 							$qid = "LAST";
@@ -89,11 +89,11 @@ class csv2QuickStatements {
 							$commands_array[] = $last_prop . "	P" . $matches["number"] . "	" . $this->stripComments($value,1);
 							break;
 						}
-					case preg_match('/^(l|L|d|D)(?P<lang>[a-z]+)$/', $key, $matches)? true : false: // Labels and descriptions
+					case preg_match('/^(l|L|d|D)(?P<lang>[a-z-]+)$/', $key, $matches)? true : false: // Labels and descriptions
 						// TODO : check if language code is valid
 						if (!empty($value)){ $commands_array[]= $qid ."	" . $key . '	"' . $value. '"' ; }
 						break;
-					case preg_match('/^(a|A)(?P<lang>[a-z]+)$/', $key, $matches)? true : false: // Aliases
+					case preg_match('/^(a|A)(?P<lang>[a-z-]+)$/', $key, $matches)? true : false: // Aliases
 						// TODO : check if language code is valid
 						if (!empty($value)){
 							$aliases=explode("|", $value);
