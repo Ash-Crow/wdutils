@@ -49,13 +49,13 @@ include_once("lib/csv2QuickStatements.lib.php");
 <!-- If a file has been imported, treat it. -->
 <?php
 if ( isset($_FILES["csv"])) {
-	$csv_mimetypes = array('text/csv', 'text/plain', 'application/csv', 'text/comma-separated-values', 'application/excel', 'application/vnd.ms-excel', 'application/vnd.msexcel', 'text/anytext', 'application/octet-stream', 'application/txt');
+	$csv_mimetypes = array('text/csv', 'text/plain', 'text/x-csv', 'application/csv', 'text/comma-separated-values', 'application/excel', 'application/vnd.ms-excel', 'application/vnd.msexcel', 'text/anytext', 'application/octet-stream', 'application/txt');
 
 		//if there was an error uploading the file
 	if ($_FILES["csv"]["error"] > 0) {
 		$page->alert("Return Code " . $_FILES["file"]["error"],"danger");
 	} else if (!in_array($_FILES["csv"]["type"],$csv_mimetypes)) {
-		$page->alert("File type error — the file doesn’t seems to be a CSV.","danger");
+		$page->alert("File type error: ". $_FILES["csv"]["type"] ." — the file doesn’t seems to be a CSV.","danger");
 	} else {
 		$csv = new parseCSV($_FILES["csv"]["tmp_name"]);
 
